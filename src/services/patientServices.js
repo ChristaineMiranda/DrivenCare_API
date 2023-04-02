@@ -1,6 +1,9 @@
 import bcrypt from 'bcrypt';
+import {v4 as uuid} from 'uuid';
 import patientRepositories from '../repositories/patientRepositories.js'
 import errors from '../errors/index.js';
+
+
 
 async function create(name, email, password){
     
@@ -11,4 +14,21 @@ async function create(name, email, password){
     await patientRepositories.create(name, email, hashPassword);
 }
 
-export default {create, }
+async function signin(email, password){
+
+    const {rowCount, rows : [user] } = await patientRepositories.findByEmail(email);
+    if(!rowCount) throw errors.invalidCredentialsError();
+ 
+    const validPassword = await bcrypt.compare(password, user.password);
+    if(!validPassword) throw errors.invalidCredentialsError();
+
+    const {rows : [session]} = await patientRepositories.findSession(user.id, "patient");
+    if(session){
+        return session.token;
+    }
+    const token = uuid();
+    await patientRepositories.createSession(user.id, "patient", token);
+    return token; 
+}
+
+export default {create, signin}

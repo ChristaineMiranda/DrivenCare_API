@@ -7,13 +7,21 @@ function duplicatedEmailError(){
 
 function incorrectFieldsError(errors){
     return{
-        name: "incorrectFieldsError",
+        name: "IncorrectFieldsError",
         message: errors
+    }
+}
+
+function invalidCredentialsError(){
+    return{
+        name: "InvalidCredentialsError",
+        message: "Invalid email or password"
     }
 }
 
 
 export default {
     duplicatedEmailError,
-    incorrectFieldsError
+    incorrectFieldsError, 
+    invalidCredentialsError
 }
