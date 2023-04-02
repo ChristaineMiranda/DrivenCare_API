@@ -15,7 +15,7 @@ function incorrectFieldsError(errors){
 function invalidCredentialsError(){
     return{
         name: "InvalidCredentialsError",
-        message: "Invalid email or password"
+        message: "Invalid acess credentials"
     }
 }
 

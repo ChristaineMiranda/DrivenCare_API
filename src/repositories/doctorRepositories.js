@@ -8,8 +8,8 @@ async function create (name, email, password, specialty, city, adress){
     await db.query(`INSERT INTO doctors (name, email, password, specialty, city, adress) VALUES ($1, $2, $3, $4, $5, $6);`, [name, email, password, specialty, city, adress]);
 }
 
-async function findSession (id, type){
-    return await db.query(`SELECT * FROM sessions WHERE user_id = $1 AND type = $2;`, [id, type]);
+async function findSessionById (id){
+    return await db.query(`SELECT * FROM sessions WHERE user_id = $1 AND type = $2;`, [id, "doctor"]);
 }
 
 async function createSession(id, type, token){
@@ -19,6 +19,6 @@ async function createSession(id, type, token){
 export default {
     findByEmail,
     create,
-    findSession,
+    findSessionById,
     createSession
 }

@@ -22,7 +22,7 @@ async function signin(email, password){
     const validPassword = await bcrypt.compare(password, user.password);
     if(!validPassword) throw errors.invalidCredentialsError();
 
-    const {rows : [session]} = await patientRepositories.findSession(user.id, "patient");
+    const {rows : [session]} = await patientRepositories.findSessionById(user.id);
     if(session){
         return session.token;
     }
@@ -31,4 +31,26 @@ async function signin(email, password){
     return token; 
 }
 
-export default {create, signin}
+async function searchDoctors(filter, value){
+    let list;
+    if(filter === "name"){
+        const {rows} = await patientRepositories.searchDoctorsByName(value);
+        list = rows;
+    }
+    else if(filter === "specialty"){
+       const {rows} = await patientRepositories.searchDoctorsBySpecialty(value);
+       list = rows;
+     }
+    else if(filter === "city"){
+        const {rows} = await patientRepositories.searchDoctorsByCity(value);
+        list = rows;
+    }
+    else{
+        const {rows} = await patientRepositories.searchAllDoctors();
+        list = rows;
+    }
+
+    return list;
+}
+
+export default {create, signin, searchDoctors}

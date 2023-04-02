@@ -1,3 +1,4 @@
+import patientRepositories from '../repositories/patientRepositories.js';
 import patientServices from '../services/patientServices.js';
 
 
@@ -23,4 +24,14 @@ async function signin(req, res, next){
     }
 }
 
-export default {create, signin}
+async function searchDoctors(req, res, next){
+    const {filter, value} = req.query
+       try {
+        const resultsList = await patientServices.searchDoctors(filter, value);
+        return res.status(200).send(resultsList);
+    } catch (err) {
+        next(err);        
+    }
+}
+
+export default {create, signin, searchDoctors}

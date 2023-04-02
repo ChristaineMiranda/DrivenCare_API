@@ -20,7 +20,7 @@ async function signin(email, password){
     const validPassword = await bcrypt.compare(password, user.password);
     if(!validPassword) throw errors.invalidCredentialsError();
 
-    const {rows : [session]} = await doctorRepositories.findSession(user.id, "doctor");
+    const {rows : [session]} = await doctorRepositories.findSessionById(user.id);
 
     if(session){
         return session.token;
