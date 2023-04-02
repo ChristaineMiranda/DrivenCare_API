@@ -7,5 +7,6 @@ import doctorControllers from "../controllers/doctorControllers.js";
 const doctorRoutes = Router();
 
 doctorRoutes.post("/signup", validateSchema(doctorSchemas.signup), doctorControllers.create);
+doctorRoutes.post("/signin", doctorControllers.signin);
 
 export default doctorRoutes;

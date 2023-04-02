@@ -13,7 +13,6 @@ async function findSession (id, type){
 }
 
 async function createSession(id, type, token){
-    
     await db.query(`INSERT INTO sessions (user_id, token, type) VALUES ($1, $2, $3);`, [id, token, type]);
 }
 

@@ -11,4 +11,16 @@ async function create(req, res, next){
         next(err);
     }
 }
-export default {create}
+
+async function signin(req, res, next){
+    const {email, password} = req.body;
+    try {
+        const token = await doctorServices.signin(email, password);
+        return res.status(200).send(token);
+        
+    } catch (err) {
+        next(err);        
+    }
+}
+
+export default {create, signin}
