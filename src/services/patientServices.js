@@ -53,4 +53,20 @@ async function searchDoctors(filter, value){
     return list;
 }
 
-export default {create, signin, searchDoctors}
+export async function createAppointment(userId, doctorId, date, time){
+
+    const {rowCount : doctorExists} = await patientRepositories.doctorExists(doctorId);
+    if(!doctorExists){
+        throw errors.invalidDoctorId();
+    }
+
+    const {rowCount} = await patientRepositories.appointmentExists(doctorId, date, time);
+    if(rowCount){
+        throw errors.appointmentUnavailable();
+    }
+
+    const {rows : [appointmentId]} = await patientRepositories.createAppointment(userId, doctorId, date, time);
+    return appointmentId;
+}
+//FAZER VALIDAÇÃO DE DATA E HORA
+export default {create, signin, searchDoctors, createAppointment}

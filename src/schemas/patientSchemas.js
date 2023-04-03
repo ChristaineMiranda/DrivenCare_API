@@ -8,4 +8,6 @@ const signup = joi.object({
 });
 
 
+
+
 export default {signup}

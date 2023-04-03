@@ -36,6 +36,19 @@ async function findSessionByToken(token){
     return await db.query(`SELECT * FROM sessions WHERE token = $1;`, [token]);
 }
 
+async function createAppointment(userId, doctorId, date, time){
+    return await db.query(`INSERT INTO appointments (patient_id, doctor_id, date, time) VALUES ($1, $2, $3, $4) RETURNING id;`, [userId, doctorId, date, time]);
+}
+
+async function doctorExists (doctorId){
+    return await db.query(`SELECT * FROM doctors WHERE id = $1;`, [doctorId]);
+}
+
+async function appointmentExists(doctorId, date, time){
+    return await db.query(`SELECT * FROM appointments WHERE doctor_id = $1 AND date = $2 AND time = $3;`, [doctorId, date, time]);
+}
+
+
 export default {
     findByEmail,
     create,
@@ -45,6 +58,8 @@ export default {
     searchDoctorsBySpecialty,
     searchDoctorsByCity,
     searchAllDoctors,
-    findSessionByToken
-
+    findSessionByToken,
+    doctorExists,
+    appointmentExists,
+    createAppointment
 }

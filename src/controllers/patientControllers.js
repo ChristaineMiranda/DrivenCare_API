@@ -34,4 +34,17 @@ async function searchDoctors(req, res, next){
     }
 }
 
-export default {create, signin, searchDoctors}
+async function createAppointment(req, res, next){
+    const {doctorId, date, time} = req.body;
+    const userId = res.locals.user.userId
+    try {
+       const appointmentId = await patientServices.createAppointment(userId, doctorId, date, time);
+       return res.status(201).send(appointmentId);
+    } catch (err) {
+        next(err);        
+    }
+}
+
+
+
+export default {create, signin, searchDoctors, createAppointment}

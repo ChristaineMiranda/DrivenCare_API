@@ -19,9 +19,24 @@ function invalidCredentialsError(){
     }
 }
 
+function invalidDoctorId(){
+    return{
+        name:"InvalidDoctorId",
+        message:"The medical id provided is invalid"
+    }
+}
+function appointmentUnavailable(){
+    return{
+        name: "AppointmentUnavailable",
+        message: "Time and date unavailable"
+    }
+}
+
 
 export default {
     duplicatedEmailError,
     incorrectFieldsError, 
-    invalidCredentialsError
+    invalidCredentialsError,
+    invalidDoctorId,
+    appointmentUnavailable
 }
